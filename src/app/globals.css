@@ -1,7 +1,7 @@
 /* =================================
    1. THEME & COLOR VARIABLES
    ================================= */
-:root {
+   :root {
     --bg-color: #F0F2F5;
     --card-bg-color: #ffffff;
     --text-color: #1c1e21;
@@ -39,12 +39,19 @@
 /* =================================
    2. GENERAL, LAYOUT & KEYFRAMES
    ================================= */
-/* [UPDATED] Using new "Poppins" font */
-body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; transition: background-color 0.2s ease, color 0.2s ease; }
+/* Font is now handled by Next.js in layout.tsx */
+body { 
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    line-height: 1.6; 
+    margin: 0; 
+    transition: background-color 0.2s ease, color 0.2s ease; 
+}
+
 main { max-width: 800px; margin: 20px auto 40px; padding: 0 20px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 
-/* [NEW] Animation for posts appearing in the feed */
+/* Animation for posts appearing in the feed */
 @keyframes fadeInSlideUp {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -56,7 +63,6 @@ main { max-width: 800px; margin: 20px auto 40px; padding: 0 20px; }
 header { padding: 10px 20px; margin-bottom: 20px; }
 .header-content { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
 
-/* [UPDATED] Logo style with new font and gradient */
 header h1 { 
     font-weight: 700;
     font-size: 2.5em;
@@ -66,7 +72,7 @@ header h1 {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: transparent; /* Fallback for older browsers */
+    color: transparent; 
 }
 
 #theme-toggle-button { position: fixed; top: 15px; right: 20px; background-color: var(--card-bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; z-index: 100; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
@@ -79,9 +85,9 @@ header h1 {
 #post-content { width: 100%; padding: 15px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); border-radius: 8px; font-size: 16px; line-height: 1.5; resize: vertical; box-sizing: border-box; font-family: inherit; margin-bottom: 10px; }
 #post-content:focus { outline: none; border-color: var(--primary-button-bg); box-shadow: 0 0 0 2px var(--focus-shadow-color); }
 .form-footer { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-secondary-color); padding: 0 5px; margin-bottom: 15px; }
-#feedback-message { font-weight: 600; }
-#feedback-message.error { color: #d93025; }
-#feedback-message.success { color: #1e8e3e; }
+.feedback-message { font-weight: 600; }
+.feedback-message.error { color: #d93025; }
+.feedback-message.success { color: #1e8e3e; }
 #share-button { width: 100%; padding: 12px 20px; background-color: var(--primary-button-bg); color: var(--primary-button-text); border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s ease-in-out; }
 #share-button:hover { background-color: var(--primary-button-hover-bg); }
 #share-button:disabled { background-color: var(--secondary-button-bg); color: var(--text-secondary-color); cursor: not-allowed; }
@@ -89,7 +95,6 @@ header h1 {
 /* =================================
    5. POST FEED & LOADER
    ================================= */
-/* [UPDATED] Applying the new animation to posts */
 .post-card { background-color: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: var(--box-shadow-light); overflow: hidden; transition: border-color 0.2s ease; animation: fadeInSlideUp 0.4s ease-out forwards; }
 .post-card p { margin: 15px 0 0 0; color: var(--text-color); overflow-wrap: break-word; font-size: 1.05em; line-height: 1.7; white-space: pre-wrap; }
 .report-button { float: right; margin-left: 15px; background-color: var(--secondary-button-bg); border: none; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary-color); cursor: pointer; transition: background-color 0.2s ease, opacity 0.2s ease; }
@@ -98,8 +103,11 @@ header h1 {
 .feed-status { text-align: center; color: var(--text-secondary-color); font-size: 1.1em; padding: 40px 20px; }
 .post-timestamp { display: block; margin-top: 15px; font-size: 13px; color: var(--text-secondary-color); float: left; }
 .post-card.my-post { border-color: var(--primary-button-bg); }
+
+/* Helper class to hide posts that aren't mine when filter is active */
 body.my-posts-view .post-card:not(.my-post) { display: none; }
-.loader-container { padding: 20px 0; }
+
+.loader-container { padding: 20px 0; display: flex; justify-content: center; }
 .loader { margin: 0 auto; border: 4px solid var(--secondary-button-bg); border-top: 4px solid var(--primary-button-bg); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -114,15 +122,16 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
 #feedback-form .feedback-type { display: flex; gap: 20px; margin-bottom: 15px; }
 #feedback-form textarea { width: 100%; box-sizing: border-box; padding: 10px; margin-bottom: 15px; background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 8px; resize: vertical; }
 #feedback-form button { width: 100%; padding: 10px; border: none; border-radius: 8px; background-color: var(--primary-button-bg); color: var(--primary-button-text); font-weight: bold; cursor: pointer; }
-#feedback-form-status { margin-top: 10px; text-align: center; font-size: 14px; color: var(--primary-button-bg); }
+.feedback-form-status { margin-top: 10px; text-align: center; font-size: 14px; color: var(--primary-button-bg); }
+.feedback-form-status.error { color: #d93025; }
+.feedback-form-status.success { color: #1e8e3e; }
 
 /* =================================
    7. HEADER NAVIGATION
    ================================= */
 .header-nav { display: flex; align-items: center; gap: 15px; }
 
-/* [UPDATED] Unified style for all header buttons/links */
-.header-nav a, .nav-button {
+.header-nav button, .nav-button {
     background-color: var(--secondary-button-bg);
     color: var(--text-color);
     padding: 8px 16px;
@@ -134,7 +143,7 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
     border: none;
     transition: all 0.2s ease;
 }
-.header-nav a:hover, .nav-button:hover {
+.header-nav button:hover, .nav-button:hover {
     background-color: var(--secondary-button-hover-bg);
     transform: translateY(-2px);
     box-shadow: var(--box-shadow-light);
