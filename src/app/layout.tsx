@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     images: ['/hearmeouttt-social-preview.png'],
   },
   verification: {
-    google: 'Dkr6begNrbMXCeyhxMlNqEljHa1aoNQ4AGjN5QlbUAc',
+    google: 'ETQ9qZjFeKB_3wx2Fun7xQzhYPrLO4Ec3An6BQuP_L8',
   },
 };
 
