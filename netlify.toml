@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/*"
+  to = "https://hearmeouttt.vercel.app/:splat"
+  status = 301
+  force = true
