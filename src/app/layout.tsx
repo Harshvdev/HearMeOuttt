@@ -67,13 +67,31 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "HearMeOuttt",
+    "url": "https://hearmeouttt.vercel.app",
+    "description": "A judgment-free anonymous space to share your thoughts and feelings.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://hearmeouttt.vercel.app"
+    }
+  };
+
   return (
     <html lang="en" className={poppins.className}>
       {/* suppressHydrationWarning:
         Tells React to ignore attribute mismatches on the body tag 
         (like those injected by Grammarly, LastPass, or ad blockers).
       */}
-      <body suppressHydrationWarning={true}>{children}</body>
+      <body suppressHydrationWarning={true}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
