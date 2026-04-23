@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   title: 'HearMeOuttt - Share Your Thoughts Anonymously',
   description: 'HearMeOuttt is a safe and anonymous platform to share your thoughts, feelings, and daily experiences without registration.',
   keywords: 'HearMeOuttt, anonymous posts, share thoughts, anonymous social, mental health, venting',
-  authors: [{ name: 'Harsh Vardhan Shukla', url: 'https://github.com/Harshvdev' }],
-  creator: 'Harsh Vardhan Shukla',
   
   // FIXED: Pointing to your actual public files
   manifest: '/site.webmanifest',
