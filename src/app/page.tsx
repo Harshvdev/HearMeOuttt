@@ -79,6 +79,7 @@ export default function Home() {
   const [shareBtnText, setShareBtnText] = useState('Share Anonymously');
   const [feedbackMsg, setFeedbackMsg] = useState<{ text: string; type: 'error' | 'success' | '' }>({ text: '', type: '' });
   const [showNotice, setShowNotice] = useState(false);
+  const [showDeletionTip, setShowDeletionTip] = useState(false);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -270,6 +271,11 @@ export default function Home() {
 
       showFeedback('Your post was shared!', 'success');
       setPostContent('');
+
+      if (newMyPostIds.length <= 3) {
+        setShowDeletionTip(true);
+        setTimeout(() => setShowDeletionTip(false), 8000);
+      }
       
       // Optimistic Update
       const newPostObj: PostData = {
@@ -389,6 +395,44 @@ export default function Home() {
     }
   };
 
+  const handleDeletePost = async (postId: string) => {
+    if (!currentUser) return;
+    
+    if (!window.confirm("Delete this post? This action is permanent and cannot be undone.")) {
+      return;
+    }
+
+    // Add a temporary loading state here if you want
+    try {
+      const res = await fetch('/api/delete-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ postId, uid: currentUser.uid }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // Remove from posts state
+        setPosts(prev => prev.filter(p => p.id !== postId));
+        
+        // Remove from localStorage and myPostIds state
+        const updatedMyPosts = myPostIds.filter(id => id !== postId);
+        setMyPostIds(updatedMyPosts);
+        localStorage.setItem(STORAGE_KEYS.MY_POST_IDS, JSON.stringify(updatedMyPosts));
+        
+        showFeedback('Post permanently deleted.', 'success');
+      } else {
+        showFeedback(data.error || 'Failed to delete post.', 'error');
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      showFeedback('An error occurred while deleting the post.', 'error');
+    }
+  };
+
   const handleDismissNotice = () => {
     setShowNotice(false);
     localStorage.setItem('noticeDismissed', 'true');
@@ -484,6 +528,13 @@ export default function Home() {
           </form>
         </section>
 
+        {/* ADD THIS BLOCK */}
+        {showDeletionTip && (
+          <div className="deletion-tip">
+            💡 <strong>Tip:</strong> You can delete this post using the 'My Posts' button above — but only from this browser. Clearing your browser data will permanently remove the delete option.
+          </div>
+        )}
+
         {/* NEW PLACEMENT: Links sit above the infinite feed so they are actually reachable */}
         <div className="feed-meta-links">
           <span>© 2026 HearMeOuttt — Must be 13+ to use</span>
@@ -505,13 +556,24 @@ export default function Home() {
                   key={post.id} 
                   className={`post-card ${isMine ? 'my-post' : ''}`}
                 >
-                  <button 
-                    className="report-button" 
-                    onClick={() => handleReport(post.id)}
-                    disabled={isReported}
-                  >
-                    {isReported ? 'Reported' : 'Report'}
-                  </button>
+                  {isMine && isMyPostsMode ? (
+                    <button 
+                      className="report-button" 
+                      style={{ color: '#d93025' }} // Red text for delete
+                      onClick={() => handleDeletePost(post.id)}
+                    >
+                      Delete my post
+                    </button>
+                  ) : (
+                    <button 
+                      className="report-button" 
+                      onClick={() => handleReport(post.id)}
+                      disabled={isReported}
+                    >
+                      {isReported ? 'Reported' : 'Report'}
+                    </button>
+                  )}
+                  
                   <p className="post-content">{post.content}</p>
                   <span className="post-timestamp">{formatTimestamp(post.timestamp)}</span>
                 </div>

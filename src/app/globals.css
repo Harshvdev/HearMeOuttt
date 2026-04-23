@@ -257,3 +257,23 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
         justify-content: center; 
     }
 }
+
+/* =================================
+   10. DELETION TIP
+   ================================= */
+.deletion-tip {
+    background-color: var(--focus-shadow-color);
+    color: var(--text-color);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    margin-top: -20px; /* Pull it slightly up towards the submission box */
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+    line-height: 1.5;
+    animation: fadeInSlideUp 0.3s ease-out forwards;
+}
+
+.deletion-tip strong {
+    color: var(--primary-button-bg);
+}
