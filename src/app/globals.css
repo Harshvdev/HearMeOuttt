@@ -166,3 +166,94 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
     .submission-area, .post-card { padding: 20px; }
     .post-card p { font-size: 1em; }
 }
+
+/* =================================
+   9. NOTICE BAR & FOOTER
+   ================================= */
+.site-notice-bar {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    box-shadow: var(--box-shadow-light);
+}
+
+.site-notice-text { 
+    flex-grow: 1; 
+    margin-right: 15px; 
+}
+
+.site-notice-text a { 
+    color: var(--primary-button-bg); 
+    text-decoration: none; 
+    font-weight: 600; 
+}
+
+.site-notice-text a:hover { 
+    text-decoration: underline; 
+}
+
+.site-notice-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    padding: 0 5px;
+    transition: color 0.2s ease;
+}
+
+.site-notice-close:hover { 
+    color: var(--text-color); 
+}
+
+/* =================================
+   9. NOTICE BAR & META LINKS
+   ================================= */
+
+.feed-meta-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    margin-bottom: 25px; /* Spacing before the feed starts */
+    padding: 0 5px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.feed-links {
+    display: flex;
+    gap: 15px;
+}
+
+.feed-links a {
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.feed-links a:hover {
+    color: var(--primary-button-bg);
+}
+
+/* Mobile: Stack them neatly so they don't cause horizontal overflow */
+@media (max-width: 600px) {
+    .feed-meta-links { 
+        flex-direction: column; 
+        text-align: center; 
+        justify-content: center; 
+        margin-bottom: 20px;
+    }
+    .feed-links { 
+        justify-content: center; 
+    }
+}

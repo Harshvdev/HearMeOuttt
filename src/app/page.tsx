@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef, FormEvent } from 'react';
+import Link from 'next/link';
 import { 
   signInAnonymously, 
   onAuthStateChanged, 
@@ -77,6 +78,7 @@ export default function Home() {
   const [shareBtnDisabled, setShareBtnDisabled] = useState(true); // Initially disabled until auth
   const [shareBtnText, setShareBtnText] = useState('Share Anonymously');
   const [feedbackMsg, setFeedbackMsg] = useState<{ text: string; type: 'error' | 'success' | '' }>({ text: '', type: '' });
+  const [showNotice, setShowNotice] = useState(false);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -111,6 +113,11 @@ export default function Home() {
 
     const savedMyPosts = JSON.parse(localStorage.getItem(STORAGE_KEYS.MY_POST_IDS) || '[]');
     setMyPostIds(savedMyPosts);
+
+    const noticeDismissed = localStorage.getItem('noticeDismissed');
+    if (noticeDismissed !== 'true') {
+      setShowNotice(true);
+    }
 
     // Initial Fetch
     fetchPosts();
@@ -202,7 +209,11 @@ export default function Home() {
           }
         });
 
-        setPosts(prev => [...prev, ...newPosts]);
+        setPosts(prev => {
+          const existingIds = new Set(prev.map(p => p.id));
+          const uniqueNewPosts = newPosts.filter(p => !existingIds.has(p.id));
+          return [...prev, ...uniqueNewPosts];
+        });
         setLastVisiblePost(snapshot.docs[snapshot.docs.length - 1]);
       }
     } catch (error) {
@@ -378,6 +389,11 @@ export default function Home() {
     }
   };
 
+  const handleDismissNotice = () => {
+    setShowNotice(false);
+    localStorage.setItem('noticeDismissed', 'true');
+  };
+
   // --- Render Helpers ---
   // Filter logic for "My Posts" and Hiding Reported posts
   const displayedPosts = posts.filter(post => {
@@ -422,6 +438,21 @@ export default function Home() {
       </header>
 
       <main>
+        {showNotice && (
+          <div className="site-notice-bar">
+            <span className="site-notice-text">
+              Posts are 100% anonymous. No account needed. By posting, you agree to our <Link href="/terms">Terms of Service</Link>.
+            </span>
+            <button 
+              className="site-notice-close" 
+              onClick={handleDismissNotice} 
+              aria-label="Dismiss notice"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
         <section className="submission-area">
           <form onSubmit={handlePostSubmit}>
             <label htmlFor="post-content" className="visually-hidden">Anonymous Post Content</label>
@@ -452,6 +483,16 @@ export default function Home() {
             </button>
           </form>
         </section>
+
+        {/* NEW PLACEMENT: Links sit above the infinite feed so they are actually reachable */}
+        <div className="feed-meta-links">
+          <span>© 2026 HearMeOuttt — Must be 13+ to use</span>
+          <div className="feed-links">
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms of Service</Link>
+            <a href="mailto:project.hearmeouttt@gmail.com">Contact</a>
+          </div>
+        </div>
 
         <section className="feed-area">
           <div id="post-feed">
