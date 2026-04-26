@@ -79,7 +79,7 @@ export default function Home() {
   const [shareBtnText, setShareBtnText] = useState('Share Anonymously');
   const [feedbackMsg, setFeedbackMsg] = useState<{ text: string; type: 'error' | 'success' | '' }>({ text: '', type: '' });
   const [showNotice, setShowNotice] = useState(false);
-  const [showDeletionTip, setShowDeletionTip] = useState(false);
+  const [showDeletionTip, setShowDeletionTip] = useState(true);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -118,6 +118,11 @@ export default function Home() {
     const noticeDismissed = localStorage.getItem('noticeDismissed');
     if (noticeDismissed !== 'true') {
       setShowNotice(true);
+    }
+
+    const tipDismissed = localStorage.getItem('deletionTipDismissed');
+    if (tipDismissed === 'true') {
+      setShowDeletionTip(false);
     }
 
     // Initial Fetch
@@ -271,11 +276,6 @@ export default function Home() {
 
       showFeedback('Your post was shared!', 'success');
       setPostContent('');
-
-      if (newMyPostIds.length <= 3) {
-        setShowDeletionTip(true);
-        setTimeout(() => setShowDeletionTip(false), 8000);
-      }
       
       // Optimistic Update
       const newPostObj: PostData = {
@@ -438,6 +438,11 @@ export default function Home() {
     localStorage.setItem('noticeDismissed', 'true');
   };
 
+  const handleDismissDeletionTip = () => {
+    setShowDeletionTip(false);
+    localStorage.setItem('deletionTipDismissed', 'true');
+  };
+
   // --- Render Helpers ---
   // Filter logic for "My Posts" and Hiding Reported posts
   const displayedPosts = posts.filter(post => {
@@ -526,14 +531,24 @@ export default function Home() {
               {shareBtnText}
             </button>
           </form>
-        </section>
 
-        {/* ADD THIS BLOCK */}
-        {showDeletionTip && (
-          <div className="deletion-tip">
-            💡 <strong>Tip:</strong> You can delete this post using the 'My Posts' button above — but only from this browser. Clearing your browser data will permanently remove the delete option.
-          </div>
-        )}
+          {/* Static deletion warning inside the form card */}
+          {showDeletionTip && (
+            <div className="deletion-tip">
+              <span className="deletion-tip-text">
+                ⚠️ <strong>Important:</strong> You can only delete your post from this browser. Clearing your browser data will permanently remove the delete option. Use the 'My Posts' button after posting to manage your posts.
+              </span>
+              <button 
+                type="button" 
+                className="deletion-tip-close" 
+                onClick={handleDismissDeletionTip} 
+                aria-label="Dismiss tip"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </section>
 
         {/* NEW PLACEMENT: Links sit above the infinite feed so they are actually reachable */}
         <div className="feed-meta-links">
