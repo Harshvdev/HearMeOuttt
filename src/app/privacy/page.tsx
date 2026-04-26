@@ -74,7 +74,6 @@ export default function PrivacyPolicyPage() {
           <ul style={{ lineHeight: '1.6', paddingLeft: '20px', color: 'var(--text-secondary-color)' }}>
             <li style={{ marginBottom: '8px' }}><strong style={{ color: 'var(--text-color)' }}>Firebase (by Google):</strong> Used for anonymous authentication and database storage.</li>
             <li style={{ marginBottom: '8px' }}><strong style={{ color: 'var(--text-color)' }}>Vercel:</strong> Used for website hosting and backend infrastructure.</li>
-            <li style={{ marginBottom: '8px' }}><strong style={{ color: 'var(--text-color)' }}>OpenAI:</strong> Used for automated content moderation. Submitted text is sent to OpenAI's free moderation API to detect harmful content. No data is retained by OpenAI for this endpoint.</li>
           </ul>
         </section>
 
@@ -88,14 +87,14 @@ export default function PrivacyPolicyPage() {
         <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>7. Your Rights</h2>
           <p style={{ lineHeight: '1.6' }}>
-            You have the right to delete your own posts within the same browser session using the tools provided on the site. If you need a post deleted after losing your session, please email <a href="mailto:project.hearmeouttt@gmail.com" style={{ color: 'var(--primary-button-bg)', textDecoration: 'none' }}>project.hearmeouttt@gmail.com</a> with as much context as possible (e.g., approximate time of post, exact content) so we can locate and remove it.
+            You can delete your own posts directly on the site using the "My Posts" view, provided your browser session is active. <strong>Because HearMeOuttt is strictly anonymous, we have no way to verify your identity once your browser data is cleared.</strong> To prevent bad actors from maliciously deleting posts that do not belong to them, we cannot process manual deletion requests via email based on public information (like post time or content). We will only manually remove posts if they are reported and found to violate our Terms of Service.
           </p>
         </section>
 
         <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>8. GDPR Compliance</h2>
           <p style={{ lineHeight: '1.6' }}>
-            Users in the European Union have the right to access and request the erasure of their data. Due to the anonymous nature of our platform, fulfilling these requests requires specific contextual information about your posts. Contact us at <a href="mailto:project.hearmeouttt@gmail.com" style={{ color: 'var(--primary-button-bg)', textDecoration: 'none' }}>project.hearmeouttt@gmail.com</a> for assistance.
+            Users in the European Union have the right to request access to or erasure of their data. However, because we do not collect any identifiable personal information, we cannot reliably verify which data belongs to you once your local session is lost (in accordance with GDPR Article 11). To exercise your right to erasure, you must delete your posts directly on the site while your session is still active.
           </p>
         </section>
 
@@ -106,10 +105,17 @@ export default function PrivacyPolicyPage() {
           </p>
         </section>
 
-        <section style={{ marginBottom: '0' }}>
+        <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>10. Changes to this Policy</h2>
           <p style={{ lineHeight: '1.6' }}>
             We may update this Privacy Policy from time to time. We will indicate the "Last Updated" date at the top of this page. Your continued use of HearMeOuttt after changes are made constitutes your acceptance of the updated policy.
+          </p>
+        </section>
+
+        <section style={{ marginBottom: '0' }}>
+          <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>11. Mental Health & Crisis Resources</h2>
+          <p style={{ lineHeight: '1.6' }}>
+            HearMeOuttt is not a substitute for professional mental health support. If you are in crisis, please reach out to a helpline. In India: iCall (9152987821). International Association for Suicide Prevention maintains a directory of crisis centers at <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-button-bg)', textDecoration: 'none' }}>https://www.iasp.info/resources/Crisis_Centres/</a>.
           </p>
         </section>
       </div>
