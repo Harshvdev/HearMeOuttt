@@ -599,6 +599,7 @@ export default function Home() {
         <div className="feed-meta-links">
           <span>© 2026 HearMeOuttt — Must be 13+ to use</span>
           <div className="feed-links">
+            <Link href="/about">About</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms of Service</Link>
             <a href="mailto:project.hearmeouttt@gmail.com">Contact</a>
