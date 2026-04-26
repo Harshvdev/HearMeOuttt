@@ -73,7 +73,7 @@ export default function TermsOfServicePage() {
         <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>5. Content Moderation</h2>
           <p style={{ lineHeight: '1.6' }}>
-            We employ both automated moderation systems (including OpenAI's moderation API) and human review to detect and remove violating content. We reserve the right to remove any post, at any time, for any reason, without prior notice.
+            We rely on community reporting and human review to detect and remove violating content. We reserve the right to review and remove any post, at any time, for any reason, without prior notice.
           </p>
         </section>
 
@@ -105,10 +105,17 @@ export default function TermsOfServicePage() {
           </p>
         </section>
 
-        <section style={{ marginBottom: '0' }}>
+        <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>10. Contact Us</h2>
           <p style={{ lineHeight: '1.6' }}>
             If you have any questions about these Terms of Service or need to report a severe violation, please contact us at <a href="mailto:project.hearmeouttt@gmail.com" style={{ color: 'var(--primary-button-bg)', textDecoration: 'none' }}>project.hearmeouttt@gmail.com</a>.
+          </p>
+        </section>
+
+        <section style={{ marginBottom: '0' }}>
+          <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>11. Mental Health Notice</h2>
+          <p style={{ lineHeight: '1.6' }}>
+            HearMeOuttt is not a mental health service and does not provide crisis support. If you or someone you know is in crisis, please contact a helpline in your country. In India: iCall at 9152987821. In the US: 988 Suicide & Crisis Lifeline by calling or texting 988.
           </p>
         </section>
       </div>
