@@ -20,7 +20,8 @@ import {
   runTransaction, 
   QueryDocumentSnapshot,
   DocumentData,
-  Timestamp
+  Timestamp,
+  where
 } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 
@@ -187,40 +188,84 @@ export default function Home() {
 
     try {
       const postsRef = collection(db, COLLECTIONS.POSTS_PUBLIC);
-      let q;
+      
+      // We use 'in' to check for < 5 so we can maintain strict chronological sorting.
+      const safeReportCounts = [0, 1, 2, 3, 4];
+
+      let qSafe;
+      let qImmune;
 
       if (lastVisiblePost) {
-        q = query(postsRef, orderBy('timestamp', 'desc'), startAfter(lastVisiblePost), limit(POSTS_PER_PAGE));
+        qSafe = query(
+          postsRef, 
+          where('reportCount', 'in', safeReportCounts), 
+          orderBy('timestamp', 'desc'), 
+          startAfter(lastVisiblePost), 
+          limit(POSTS_PER_PAGE)
+        );
+        qImmune = query(
+          postsRef, 
+          where('isImmune', '==', true), 
+          orderBy('timestamp', 'desc'), 
+          startAfter(lastVisiblePost), 
+          limit(POSTS_PER_PAGE)
+        );
       } else {
-        q = query(postsRef, orderBy('timestamp', 'desc'), limit(POSTS_PER_PAGE));
+        qSafe = query(postsRef, where('reportCount', 'in', safeReportCounts), orderBy('timestamp', 'desc'), limit(POSTS_PER_PAGE));
+        qImmune = query(postsRef, where('isImmune', '==', true), orderBy('timestamp', 'desc'), limit(POSTS_PER_PAGE));
       }
 
-      const snapshot = await getDocs(q);
+      // Execute both queries concurrently
+      const [safeSnap, immuneSnap] = await Promise.all([getDocs(qSafe), getDocs(qImmune)]);
 
-      if (snapshot.empty) {
+      if (safeSnap.empty && immuneSnap.empty) {
         setAllPostsLoaded(true);
       } else {
-        const newPosts: PostData[] = [];
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          // Filter hidden posts locally
-          if ((data.reportCount || 0) < HIDE_THRESHOLD || data.isImmune === true) {
-            newPosts.push({
-              id: doc.id,
-              content: data.content,
-              timestamp: data.timestamp,
-              reportCount: data.reportCount || 0,
-              isImmune: data.isImmune
+        // Merge and deduplicate using a Map
+        const mergedMap = new Map<string, { post: PostData, snap: QueryDocumentSnapshot<DocumentData> }>();
+
+        const processSnap = (doc: QueryDocumentSnapshot<DocumentData>) => {
+          if (!mergedMap.has(doc.id)) {
+            const data = doc.data();
+            mergedMap.set(doc.id, {
+              post: {
+                id: doc.id,
+                content: data.content,
+                timestamp: data.timestamp,
+                reportCount: data.reportCount || 0,
+                isImmune: data.isImmune
+              },
+              snap: doc // Save the raw snapshot for future pagination
             });
           }
+        };
+
+        safeSnap.forEach(processSnap);
+        immuneSnap.forEach(processSnap);
+
+        // Convert the merged map to an array and sort chronologically (newest first)
+        const mergedArray = Array.from(mergedMap.values()).sort((a, b) => {
+          const timeA = a.post.timestamp?.seconds || 0;
+          const timeB = b.post.timestamp?.seconds || 0;
+          return timeB - timeA; 
         });
+
+        // Limit the array back to POSTS_PER_PAGE so pagination doesn't jump wildly
+        const topResults = mergedArray.slice(0, POSTS_PER_PAGE);
 
         setPosts(prev => {
           const existingIds = new Set(prev.map(p => p.id));
-          const uniqueNewPosts = newPosts.filter(p => !existingIds.has(p.id));
+          const uniqueNewPosts = topResults.map(r => r.post).filter(p => !existingIds.has(p.id));
           return [...prev, ...uniqueNewPosts];
         });
-        setLastVisiblePost(snapshot.docs[snapshot.docs.length - 1]);
+
+        // Update the cursor to the actual last item shown on the screen
+        setLastVisiblePost(topResults[topResults.length - 1].snap);
+
+        // If both queries exhausted their limits, we're likely at the end of the feed
+        if (safeSnap.docs.length < POSTS_PER_PAGE && immuneSnap.docs.length < POSTS_PER_PAGE) {
+          setAllPostsLoaded(true);
+        }
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
