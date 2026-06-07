@@ -527,6 +527,15 @@ export default function Home() {
             >
               Feedback & Bugs
             </button>
+            {/* Desktop Ko-fi Button: Sits perfectly inline right next to Bugs button */}
+            <a 
+              href="https://ko-fi.com/harshvdev" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="nav-button kofi-desktop-btn"
+            >
+              ☕ Support Me
+            </a>
           </nav>
         </div>
       </header>
@@ -594,6 +603,18 @@ export default function Home() {
             </div>
           )}
         </section>
+
+        {/* Mobile Ko-fi Button: Small, clean, and perfectly centered */}
+        <div className="kofi-mobile-container">
+          <a 
+            href="https://ko-fi.com/harshvdev" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="kofi-mobile-btn"
+          >
+            ☕ Support the creator
+          </a>
+        </div>
 
         {/* NEW PLACEMENT: Links sit above the infinite feed so they are actually reachable */}
         <div className="feed-meta-links">

@@ -299,3 +299,62 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
 .deletion-tip-close:hover {
     color: var(--text-color);
 }
+
+/* =================================
+   11. NATIVE KO-FI INTEGRATION (WARM AMBER)
+   ================================= */
+:root {
+    --kofi-bg: #FFB300;     /* Warm, comforting amber yellow */
+    --kofi-text: #1c1e21;   /* High-contrast dark text readable on light/dark themes */
+    --kofi-hover: #FFA000;  /* Slightly deeper tone on hover */
+}
+
+/* Style for desktop button inside header nav */
+.header-nav .kofi-desktop-btn {
+    background-color: var(--kofi-bg);
+    color: var(--kofi-text) !important;
+    border: none;
+}
+
+.header-nav .kofi-desktop-btn:hover {
+    background-color: var(--kofi-hover);
+}
+
+/* Mobile Button Layout adjustments */
+.kofi-mobile-container {
+    display: none; /* Hidden on desktop viewport */
+    justify-content: center;
+    margin-bottom: 25px;
+    padding: 0 5px;
+}
+
+.kofi-mobile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--kofi-bg);
+    color: var(--kofi-text) !important;
+    padding: 8px 18px; /* Matches the footprint of your nav components */
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: var(--box-shadow-light);
+}
+
+.kofi-mobile-btn:hover {
+    background-color: var(--kofi-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow);
+}
+
+/* Responsive Sync with your 600px mobile breakpoint */
+@media (max-width: 600px) {
+    .header-nav .kofi-desktop-btn {
+        display: none; /* Pull it from mobile stacked header header to reduce clutter */
+    }
+    .kofi-mobile-container {
+        display: flex; /* Activate the subtle centered row button layout */
+    }
+}
