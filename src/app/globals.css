@@ -304,9 +304,9 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
    11. NATIVE KO-FI INTEGRATION (WARM AMBER)
    ================================= */
 :root {
-    --kofi-bg: #FFB300;     /* Warm, comforting amber yellow */
-    --kofi-text: #1c1e21;   /* High-contrast dark text readable on light/dark themes */
-    --kofi-hover: #FFA000;  /* Slightly deeper tone on hover */
+    --kofi-bg: #e0b13b;     /* Soft, muted pastel yellow that blends cleanly */
+    --kofi-text: #1c1e21;   /* Clear dark text for readability */
+    --kofi-hover: #DFCE9F;  /* Slightly darker tint for the hover state */
 }
 
 /* Style for desktop button inside header nav */
@@ -357,4 +357,14 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
     .kofi-mobile-container {
         display: flex; /* Activate the subtle centered row button layout */
     }
+    .submission-area { 
+        padding: 20px; 
+        margin-bottom: 16px; /* Drastically cuts down the top gap */
+    }
+    .kofi-mobile-container {
+        display: flex;
+        margin-bottom: 16px;
+    }
+
+    
 }
