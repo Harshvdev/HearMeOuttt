@@ -618,7 +618,7 @@ export default function Home() {
 
         {/* NEW PLACEMENT: Links sit above the infinite feed so they are actually reachable */}
         <div className="feed-meta-links">
-          <span>© 2026 HearMeOuttt — Must be 13+ to use</span>
+          <span>© 2026 HearMeOuttt — Must be 18+ to use</span>
           <div className="feed-links">
             <Link href="/about">About</Link>
             <Link href="/privacy">Privacy Policy</Link>
