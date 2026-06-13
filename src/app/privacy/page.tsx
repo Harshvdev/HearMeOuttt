@@ -101,7 +101,7 @@ export default function PrivacyPolicyPage() {
         <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>9. COPPA (Children's Privacy)</h2>
           <p style={{ lineHeight: '1.6' }}>
-            This service is not intended for users under the age of 13. If you are under 13, please do not use this service or submit any content to HearMeOuttt.
+            This service is not intended for users under the age of 18. If you are under 18, please do not use this service or submit any content to HearMeOuttt.
           </p>
         </section>
 

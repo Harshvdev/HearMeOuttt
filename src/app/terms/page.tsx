@@ -45,7 +45,7 @@ export default function TermsOfServicePage() {
         <section style={{ marginBottom: '25px' }}>
           <h2 style={{ fontSize: '1.4em', marginBottom: '10px' }}>2. Age Requirement</h2>
           <p style={{ lineHeight: '1.6' }}>
-            You must be at least 13 years old to access or use HearMeOuttt. By using the platform, you confirm that you meet this minimum age requirement.
+            You must be at least 18 years old to access or use HearMeOuttt. By using the platform, you confirm that you meet this minimum age requirement.
           </p>
         </section>
 
