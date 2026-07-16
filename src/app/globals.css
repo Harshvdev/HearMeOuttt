@@ -95,7 +95,7 @@ header h1 {
 /* =================================
    5. POST FEED & LOADER
    ================================= */
-.post-card { background-color: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: var(--box-shadow-light); overflow: hidden; transition: border-color 0.2s ease; animation: fadeInSlideUp 0.4s ease-out forwards; }
+.post-card { background-color: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: var(--box-shadow-light); overflow: visible; transition: border-color 0.2s ease; animation: fadeInSlideUp 0.4s ease-out forwards; }
 .post-card p { margin: 15px 0 0 0; color: var(--text-color); overflow-wrap: break-word; font-size: 1.05em; line-height: 1.7; white-space: pre-wrap; }
 .report-button { float: right; margin-left: 15px; background-color: var(--secondary-button-bg); border: none; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary-color); cursor: pointer; transition: background-color 0.2s ease, opacity 0.2s ease; }
 .report-button:hover { background-color: var(--secondary-button-hover-bg); }
@@ -365,6 +365,185 @@ body.my-posts-view .post-card:not(.my-post) { display: none; }
         display: flex;
         margin-bottom: 16px;
     }
+}
 
-    
+/* =================================
+   12. SHARE BUTTON & DROPDOWN MENU
+   ================================= */
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    clear: both;
+}
+
+.post-footer .post-timestamp {
+    float: none;
+    margin-top: 0;
+}
+
+.post-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.share-container {
+    position: relative;
+}
+
+.share-btn {
+    background-color: var(--secondary-button-bg);
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.share-btn:hover {
+    background-color: var(--secondary-button-hover-bg);
+    color: var(--text-color);
+    transform: translateY(-1px);
+}
+
+.share-btn:active {
+    transform: translateY(0);
+}
+
+.share-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.share-dropdown {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    min-width: 180px;
+    padding: 6px 0;
+    display: flex;
+    flex-direction: column;
+    animation: scaleUpFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: bottom right;
+    backdrop-filter: blur(8px);
+}
+
+@keyframes scaleUpFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.share-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.share-option:hover {
+    background-color: var(--secondary-button-bg);
+}
+
+.share-option svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+/* =================================
+   13. HIGHLIGHTED POST PULSE GLOW
+   ================================= */
+@keyframes highlightGlow {
+    0% {
+        box-shadow: 0 0 0 4px var(--primary-button-bg), 0 8px 24px rgba(8, 102, 255, 0.4);
+        border-color: var(--primary-button-bg);
+        background-color: var(--focus-shadow-color);
+    }
+    50% {
+        box-shadow: 0 0 0 6px var(--primary-button-bg), 0 8px 30px rgba(8, 102, 255, 0.6);
+    }
+    100% {
+        box-shadow: var(--box-shadow-light);
+        border-color: var(--border-color);
+        background-color: var(--card-bg-color);
+    }
+}
+
+.post-card.highlighted-flash {
+    animation: highlightGlow 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* =================================
+   14. FLOATING TOAST NOTIFICATION
+   ================================= */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--text-color);
+    color: var(--card-bg-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeInUpToast 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards, fadeOutToast 0.25s cubic-bezier(0.16, 1, 0.3, 1) 2.75s forwards;
+    pointer-events: none;
+}
+
+@keyframes fadeInUpToast {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 15px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeOutToast {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
 }

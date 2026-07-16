@@ -25,10 +25,24 @@ const db = admin.firestore();
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { postId, uid } = body;
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json({ success: false, error: 'Unauthorized: Missing token' }, { status: 401 });
+    }
 
-    if (!postId || !uid) {
+    const idToken = authHeader.substring(7);
+    let uid: string;
+    try {
+      const decodedToken = await admin.auth().verifyIdToken(idToken);
+      uid = decodedToken.uid;
+    } catch (err) {
+      return NextResponse.json({ success: false, error: 'Unauthorized: Invalid token' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { postId } = body;
+
+    if (!postId) {
       return NextResponse.json({ success: false, error: 'Missing parameters' }, { status: 400 });
     }
 
